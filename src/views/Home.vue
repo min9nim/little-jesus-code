@@ -1,8 +1,9 @@
 <template>
   <main>
     <section>
+      <div class="date">{{today}}</div>
       <div class="title">
-        <h1>어린이부 출석체크({{today}})</h1>
+        <h1>QR 코드 입력</h1>
       </div>
       <div class="code">
         <span>CODE:</span>
@@ -89,9 +90,22 @@ main {
     display: flex;
     margin: 20px;
     flex-direction: column;
-    .title {
-      margin-bottom: 20px;
+
+    .date {
+      font-size: 24px;
+      font-weight: bold;
+      color: #888;
+      text-align: right;
     }
+
+    .title {
+      h1 {
+        font-size: 60px;
+        margin: 30px;
+        color: #555;
+      }
+    }
+
     .code {
       span {
         margin-right: 5px;
@@ -100,16 +114,20 @@ main {
         color: #555;
       }
     }
+
     .input {
       width: 200px;
       height: 30px;
     }
+
     .result {
       flex: 1;
       overflow: auto;
       margin-top: 20px;
+
       .item {
         margin-bottom: 10px;
+
         .name {
           display: inline-block;
           width: 100px;
