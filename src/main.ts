@@ -6,13 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import locale from 'element-ui/lib/locale/lang/ko'
-// import {ko} from 'element-ui/locale'   // not exist
-import * as Integrations from '@sentry/integrations'
 import {setApiServer} from '@/utils'
-import createLogger from 'if-logger'
-
-// @ts-ignore
-window.logger = createLogger()
 
 setApiServer()
 

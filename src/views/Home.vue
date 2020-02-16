@@ -32,6 +32,9 @@ import {qStudents, qCheckAttendance} from '../biz/query'
 import {go} from 'mingutils'
 import {prop, find, propEq} from 'ramda'
 import intervalCall from 'interval-call'
+import createLogger from 'if-logger'
+
+const logger = createLogger().addTags('Home.vue')
 
 const ALERT_TIMER = 2000
 
@@ -44,14 +47,12 @@ export default {
       today: moment()
         .startOf('week')
         .format('YYYY-MM-DD'),
-      students: [],
     }
   },
   async mounted() {
     this.$refs.input.focus()
-    const result = await req(qStudents)
-    this.students = result.students
   },
+
   methods: {
     check: intervalCall(500)(async function() {
       if (!this.input) {
@@ -64,10 +65,9 @@ export default {
         })
         return
       }
-      const logger = global.logger.addTags('check')
       const name = isNaN(Number(this.input)) ? this.input : codeMap[this.input]
-      const studentId = go(this.students, find(propEq('name', name)), prop('_id'))
-      logger.verbose(name, studentId)
+      const studentId = go(this.$store.state.students, find(propEq('name', name)), prop('_id'))
+      logger.addTags('check').verbose(name, studentId)
       if (!studentId) {
         Swal.fire({
           icon: 'error',
@@ -85,7 +85,7 @@ export default {
           .startOf('week')
           .format('YYYYMMDD'),
       })
-      logger.info('result =', result.checkAttendance)
+      logger.addTags('check').info('result =', result.checkAttendance)
       this.list = [{name, time: moment().format('HH:mm:ss')}, ...this.list]
       this.input = ''
       Swal.fire({

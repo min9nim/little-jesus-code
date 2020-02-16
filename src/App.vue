@@ -9,6 +9,11 @@
 <script lang="ts">
 import {reactive, onMounted, onBeforeMount} from '@vue/composition-api'
 import Vue from 'vue'
+import {req} from './utils'
+import {qStudents} from './biz/query'
+import createLogger from 'if-logger'
+
+const logger = createLogger({tags: ['App.vue']})
 
 export default {
   setup(props: any, {root}: any) {
@@ -19,11 +24,11 @@ export default {
     onBeforeMount(() => {
       // initialize({root, state})
     })
-    // onMounted(() => {
-    //   setTimeout(() => {
-    //     state.activeName = root.$route.path // root.$route.path 의 초기화 시점이 왜 이리 늦지..
-    //   }, 50)
-    // })
+    onMounted(async () => {
+      const result = await req(qStudents)
+      logger.addTags('mounted').debug('result.students', result.students)
+      root.$store.commit('setStudents', result.students)
+    })
     return {
       state,
       handleClick(tab: any, event: any) {

@@ -3,6 +3,7 @@ import {print} from 'graphql/language/printer'
 import {getQueryParams} from 'mingutils'
 import {path} from 'ramda'
 import createLogger from 'if-logger'
+import {pipe, propEq, curry, findIndex, remove, update, find} from 'ramda'
 
 const url: any = {
   prod: 'https://little-jesus-api.now.sh',
@@ -49,3 +50,32 @@ export function ascending(path: any) {
 
 export const _idAscending = ascending(path(['_id']))
 export const nameAscending = ascending(path(['name']))
+
+export const idEqual = propEq('_id')
+
+export const findById = pipe(
+  idEqual,
+  find,
+)
+
+export const updateBy = curry((pred, tobe) => {
+  return list => {
+    const index = findIndex(pred)(list)
+    return update(index, tobe)(list)
+  }
+})
+
+export const removeBy = pred => {
+  return list => {
+    const index = findIndex(pred)(list)
+    return remove(index, 1)(list)
+  }
+}
+
+export const updateById = curry((id, tobe, list) => {
+  return updateBy(idEqual(id))(tobe)(list)
+})
+
+export const removeById = curry((id, list) => {
+  return removeBy(idEqual(id))(list)
+})
