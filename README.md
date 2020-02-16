@@ -1,4 +1,5 @@
-# little-jesus-vue
+# little-jesus-code
+git push -u origin master
 
 ## Project setup
 
