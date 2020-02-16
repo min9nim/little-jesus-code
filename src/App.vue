@@ -27,7 +27,10 @@ export default {
     onMounted(async () => {
       const result = await req(qStudents)
       logger.addTags('mounted').debug('result.students', result.students)
-      root.$store.commit('setStudents', result.students)
+      root.$store.commit(
+        'setStudents',
+        result.students.map(student => ({...student, editable: false, loading: false})),
+      )
     })
     return {
       state,
