@@ -6,8 +6,13 @@
         <h1>QR 코드 입력</h1>
       </div>
       <div class="code">
-        <span>CODE:</span>
-        <input ref="input" class="input" v-model="input" id="code" @keyup.enter="check" />
+        <div class="label">CODE:</div>
+        <div class="input">
+          <input ref="input" v-model="input" id="code" @keyup.enter="check" />
+        </div>
+        <div class="btn">
+          <button>저장</button>
+        </div>
       </div>
       <div class="result">
         <div class="item" v-for="(item, idx) in list" :key="idx">
@@ -88,7 +93,7 @@ export default {
 main {
   section {
     display: flex;
-    margin: 20px;
+    margin: 0 20px;
     flex-direction: column;
 
     .date {
@@ -107,23 +112,40 @@ main {
     }
 
     .code {
-      span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .label {
         margin-right: 5px;
         font-size: 16px;
         font-weight: bold;
         color: #555;
       }
-    }
 
-    .input {
-      width: 200px;
-      height: 30px;
+      .input {
+        margin-left: 5px;
+
+        input {
+          width: 200px;
+          height: 30px;
+        }
+      }
+
+      .btn {
+        margin-left: 5px;
+
+        button {
+          width: 50px;
+          height: 35px;
+        }
+      }
     }
 
     .result {
       flex: 1;
       overflow: auto;
-      margin-top: 20px;
+      margin-top: 70px;
 
       .item {
         margin-bottom: 10px;
