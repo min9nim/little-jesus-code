@@ -11,7 +11,7 @@
           <input ref="input" v-model="input" id="code" @keyup.enter="check" />
         </div>
         <div class="btn">
-          <button>저장</button>
+          <button @click="check">저장</button>
         </div>
       </div>
       <div class="result">
@@ -54,6 +54,16 @@ export default {
   },
   methods: {
     check: intervalCall(500)(async function() {
+      if (!this.input) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops..',
+          text: 'The code is empty',
+          showConfirmButton: true,
+          timer: ALERT_TIMER,
+        })
+        return
+      }
       const logger = global.logger.addTags('check')
       const name = isNaN(Number(this.input)) ? this.input : codeMap[this.input]
       const studentId = go(this.students, find(propEq('name', name)), prop('_id'))
@@ -138,6 +148,7 @@ main {
         button {
           width: 50px;
           height: 35px;
+          cursor: pointer;
         }
       }
     }
