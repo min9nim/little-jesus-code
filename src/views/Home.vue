@@ -50,11 +50,14 @@ export default {
     }
   },
   async mounted() {
+    const l = logger.addTags('mounted')
+    l.info('start')
     this.$refs.input.focus()
   },
 
   methods: {
     check: intervalCall(500)(async function() {
+      const l = logger.addTags('check')
       if (!this.input) {
         Swal.fire({
           icon: 'error',
@@ -65,10 +68,14 @@ export default {
         })
         return
       }
-      const name = isNaN(Number(this.input)) ? this.input : codeMap[this.input]
-      const studentId = go(this.$store.state.students, find(propEq('name', name)), prop('_id'))
-      logger.addTags('check').verbose(name, studentId)
-      if (!studentId) {
+      // const name = isNaN(Number(this.input)) ? this.input : codeMap[this.input]
+      let student
+      if (isNaN(Number(this.input))) {
+        student = this.$store.state.students.find(propEq('name', this.input))
+      } else {
+        student = this.$store.state.students.find(propEq('no', this.input))
+      }
+      if (!student) {
         Swal.fire({
           icon: 'error',
           title: 'Oops..',
@@ -79,18 +86,19 @@ export default {
         this.input = ''
         return
       }
+      l.info('matched:', student.name, student._id)
       const result = await req(qCheckAttendance, {
-        owner: studentId,
+        owner: student._id,
         date: moment()
           .startOf('week')
           .format('YYYYMMDD'),
       })
-      logger.addTags('check').info('result =', result.checkAttendance)
-      this.list = [{name, time: moment().format('HH:mm:ss')}, ...this.list]
+      l.info('result =', result.checkAttendance)
+      this.list = [{name: student.name, time: moment().format('HH:mm:ss')}, ...this.list]
       this.input = ''
       Swal.fire({
         icon: 'success',
-        title: 'Welcome ' + name + ':)',
+        title: 'Welcome ' + student.name + ':)',
         text: '출석체크 완료~*',
         showConfirmButton: true,
         timer: ALERT_TIMER,

@@ -10,8 +10,11 @@
 import {reactive, onMounted, onBeforeMount} from '@vue/composition-api'
 import Vue from 'vue'
 import {req} from './utils'
-import {qStudents} from './biz/query'
+import {qStudents, qUpdateStudent} from './biz/query'
 import createLogger from 'if-logger'
+import {codeMap} from './biz/codeMap'
+import {go} from 'mingutils'
+import {prop, find, propEq} from 'ramda'
 
 const logger = createLogger({tags: ['App.vue']})
 
@@ -21,16 +24,26 @@ export default {
       loading: false,
       activeName: location.pathname,
     })
-    onBeforeMount(() => {
-      // initialize({root, state})
-    })
-    onMounted(async () => {
+    onBeforeMount(async () => {
+      const l = logger.addTags('onBeforeMount')
+      l.info('start')
       const result = await req(qStudents)
-      logger.addTags('mounted').debug('result.students', result.students)
+      l.debug('result.students', result.students)
       root.$store.commit(
         'setStudents',
         result.students.map(student => ({...student, editable: false, loading: false})),
       )
+
+      // 코드값 초기화
+      if (root.$route.query.codeSet === 'true') {
+        root.$store.state.students.forEach(student => {
+          const matched = Object.entries(codeMap).find(([key, value]) => value === student.name)
+          l.info(student.name, student._id, matched && matched[0])
+          if (matched) {
+            req(qUpdateStudent, {_id: student._id, no: matched[0]})
+          }
+        })
+      }
     })
     return {
       state,
