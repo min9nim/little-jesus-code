@@ -13,6 +13,7 @@
       )
       el-tag.studentName(
         v-show="!student.editable"
+        :type="!student.no ? 'danger' : ''"
         @click="handleStudentClick(student)"
       ) {{student.name}}({{student.no}})
   .new-student
@@ -77,6 +78,7 @@ export default {
     .student {
       display: inline-block;
       margin: 3px 4px;
+      width: 100px;
 
       .input-student-name {
         display: inline-block;
