@@ -5,7 +5,7 @@
     .student(v-for="(student, index) in $store.state.students" :key="student._id" v-loading="student.loading")
       el-input.input-student-name(
         v-show="student.editable"
-        v-model="student.name"
+        v-model="student.no"
         :ref="student._id"
         size="mini"
         @keyup.enter.native="handleStudentNameConfirm(student)"
@@ -14,7 +14,7 @@
       el-tag.studentName(
         v-show="!student.editable"
         @click="handleStudentClick(student)"
-      ) {{student.name}}
+      ) {{student.name}}({{student.no}})
   .new-student
     el-input.input-new-tag(
       v-if="state.inputVisible"

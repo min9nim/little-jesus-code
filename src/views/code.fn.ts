@@ -59,13 +59,13 @@ export function useHandleStudentClick({root, refs}: any) {
 export function useHandleStudentNameConfirm(state: IState) {
   return async (student: IStudent) => {
     try {
-      if (student.name) {
+      if (student.no) {
         student.loading = true
-        await req(qUpdateStudent, {_id: student._id, name: student.name})
+        await req(qUpdateStudent, {_id: student._id, no: student.no})
         student.loading = false
         // @ts-ignore
         Notification.success({
-          message: student.name + ' 이름 수정 완료',
+          message: student.name + '의 코드값(' + student.no + ') 수정 완료',
           position: 'bottom-right',
         })
       }
