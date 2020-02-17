@@ -16,7 +16,7 @@
         :disable-transitions="true"
         :type="!student.no ? 'danger' : ''"
         @click="handleStudentClick(student)"
-      ) {{student.name}}({{student.no}})
+      ) {{student.name}}: {{student.no}}
 </template>
 
 <script lang="ts">
