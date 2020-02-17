@@ -4,7 +4,7 @@
   .students
     .student(v-for="(student, index) in $store.state.students" :key="student._id" v-loading="student.loading")
       el-input.input-student-name(
-        v-show="student.editable"
+        v-if="student.editable"
         v-model="student.no"
         :ref="student._id"
         size="mini"
@@ -12,7 +12,8 @@
         @blur="handleStudentNameConfirm(student)"
       )
       el-tag.studentName(
-        v-show="!student.editable"
+        v-else
+        :disable-transitions="true"
         :type="!student.no ? 'danger' : ''"
         @click="handleStudentClick(student)"
       ) {{student.name}}({{student.no}})
