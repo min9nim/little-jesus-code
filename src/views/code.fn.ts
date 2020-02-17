@@ -4,6 +4,8 @@ import {req} from '@/utils'
 import {qUpdateStudent} from '@/biz/query'
 import {MessageBox, Notification} from 'element-ui'
 import createLogger from 'if-logger'
+import {clone, propEq, prop, find} from 'ramda'
+import {go} from 'mingutils'
 
 const logger = createLogger().addTags('code.fn.ts')
 
@@ -11,37 +13,16 @@ export interface IState {
   loading: boolean
   inputVisible: boolean
   newStudentName: string
+  originalStudents: IStudent[]
 }
 
-export function useState(): IState {
+export function useState({root}): IState {
   return reactive<IState>({
     loading: false,
     inputVisible: false,
     newStudentName: '',
+    originalStudents: [],
   })
-}
-
-export function useHandleInputConfirm(state: IState, root) {
-  return async () => {
-    try {
-      if (state.newStudentName) {
-        state.loading = true
-        root.$store.dispatch('addStudent', {name: state.newStudentName})
-        state.loading = false
-        // @ts-ignore
-        Notification.success({
-          message: state.newStudentName + ' 어린이 추가 완료',
-          position: 'bottom-right',
-        })
-      }
-      state.inputVisible = false
-      state.newStudentName = ''
-    } catch (e) {
-      state.loading = false
-      console.error(e)
-      MessageBox.alert(e.message, {type: 'warning'})
-    }
-  }
 }
 
 export function useHandleStudentClick({root, refs}: any) {
@@ -57,18 +38,31 @@ export function useHandleStudentClick({root, refs}: any) {
 }
 
 export function useHandleStudentNameConfirm(state: IState) {
+  const l = logger.addTags('useHandleStudentNameConfirm')
   return async (student: IStudent) => {
     try {
-      if (student.no) {
-        student.loading = true
-        await req(qUpdateStudent, {_id: student._id, no: student.no})
-        student.loading = false
-        // @ts-ignore
-        Notification.success({
-          message: student.name + '의 코드값(' + student.no + ') 수정 완료',
-          position: 'bottom-right',
-        })
+      if (!student.no) {
+        student.editable = false
+        return
       }
+      const originalStudent = go(state.originalStudents, find(propEq('_id', student._id)))
+      l.verbose(originalStudent.no, student.no)
+      if (originalStudent.no === student.no) {
+        // 동일한 값이면 그냥 리턴
+        student.editable = false
+        return
+      }
+      student.loading = true
+      await req(qUpdateStudent, {_id: student._id, no: student.no})
+      student.loading = false
+
+      // originalStudent.no 재설정
+      originalStudent.no = student.no
+      // @ts-ignore
+      Notification.success({
+        message: student.name + '의 코드값(' + student.no + ') 수정 완료',
+        position: 'bottom-right',
+      })
       student.editable = false
     } catch (e) {
       state.loading = false

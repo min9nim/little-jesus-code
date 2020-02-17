@@ -16,44 +16,44 @@
         :type="!student.no ? 'danger' : ''"
         @click="handleStudentClick(student)"
       ) {{student.name}}({{student.no}})
-  .new-student
-    el-input.input-new-tag(
-      v-if="state.inputVisible"
-      v-model="state.newStudentName"
-      ref="saveTagInput"
-      size="mini"
-      @keyup.enter.native="$refs.saveTagInput.blur"
-      @blur="handleInputConfirm"
-    )
 </template>
 
 <script lang="ts">
-import {createComponent, onBeforeMount, onMounted} from '@vue/composition-api'
-import {
-  useState,
-  IState,
-  useHandleInputConfirm,
-  useHandleStudentClick,
-  useHandleStudentNameConfirm,
-} from './code.fn'
-import {remove, equals, propEq, eqProps} from 'ramda'
+import {createComponent, onBeforeMount, onMounted, watch} from '@vue/composition-api'
+import {useState, IState, useHandleStudentClick, useHandleStudentNameConfirm} from './code.fn'
+import {remove, equals, propEq, eqProps, clone} from 'ramda'
 import {exclude} from 'mingutils'
 import useIntervalCall from 'interval-call'
+import createLogger from 'if-logger'
+const logger = createLogger().addTags('Code.vue')
 
 const intervalCall = useIntervalCall(1000)
 
 export default {
   name: 'v-student',
   setup(props: any, {root, refs}: any) {
-    const state: IState = useState()
+    const state: IState = useState({root})
     // @ts-ignore
     const handleStudentClick = useHandleStudentClick({root, refs})
     // @ts-ignore
-    const handleInputConfirm = useHandleInputConfirm(state, root)
     const handleStudentNameConfirm = useHandleStudentNameConfirm(state)
+    watch(
+      () => root.$store.state.students.length,
+      () => {
+        const l = logger.addTags('watch')
+        l.debug('root.$store.state.students.length', root.$store.state.students.length)
+        if (root.$store.state.students.length > 0) {
+          state.originalStudents = clone(root.$store.state.students)
+          l.info('root.$store.state.students cloned to state.originalStudents')
+        }
+      },
+    )
+    onMounted(() => {
+      const l = logger.addTags('onMounted')
+      l.debug('root.$store.state.students.length', root.$store.state.students.length)
+    })
     return {
       state,
-      handleInputConfirm,
       handleStudentNameConfirm: intervalCall(handleStudentNameConfirm),
       handleStudentClick,
     }
