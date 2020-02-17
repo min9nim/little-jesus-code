@@ -52,6 +52,18 @@ export function useHandleStudentNameConfirm(state: IState) {
         student.editable = false
         return
       }
+
+      const sameNoStudent = go(state.originalStudents, find(propEq('no', student.no)))
+      if (sameNoStudent) {
+        MessageBox.alert(
+          sameNoStudent.name + '의 코드값과 동일합니다. 다른 값을 입력해 주세요',
+          '',
+          {type: 'warning'},
+        )
+        student.no = originalStudent.no
+        return
+      }
+
       student.loading = true
       await req(qUpdateStudent, {_id: student._id, no: student.no})
       student.loading = false
