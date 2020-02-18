@@ -12,7 +12,7 @@ export function useCheck({state, root}) {
     const logger = createLogger().addTags('check')
     const l = logger.addTags('check')
     if (!state.input) {
-      Swal.fire({
+      await Swal.fire({
         icon: 'error',
         title: 'Oops..',
         text: 'The code is empty',
@@ -29,7 +29,7 @@ export function useCheck({state, root}) {
       student = root.$store.state.students.find(propEq('no', state.input))
     }
     if (!student) {
-      Swal.fire({
+      await Swal.fire({
         icon: 'error',
         title: 'Oops..',
         text: 'The name of code(' + state.input + ') is not found',
@@ -49,7 +49,7 @@ export function useCheck({state, root}) {
     l.info('result =', result.checkAttendance)
     state.list = [{name: student.name, time: moment().format('HH:mm:ss')}, ...state.list]
     state.input = ''
-    Swal.fire({
+    await Swal.fire({
       icon: 'success',
       title: 'Welcome ' + student.name + ':)',
       text: '출석체크 완료~*',
