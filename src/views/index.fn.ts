@@ -1,12 +1,8 @@
-import {createComponent, onBeforeMount, onMounted, watch, reactive} from '@vue/composition-api'
-import {codeMap} from '../biz/codeMap'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import {req} from '../utils'
-import {qStudents, qCheckAttendance} from '../biz/query'
-import {go} from 'mingutils'
-import {prop, find, propEq} from 'ramda'
-import intervalCall from 'interval-call'
+import {qCheckAttendance} from '../biz/query'
+import {propEq} from 'ramda'
 import createLogger from 'if-logger'
 
 const ALERT_TIMER = 2000
