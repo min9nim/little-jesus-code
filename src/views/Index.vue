@@ -8,17 +8,25 @@
       <div class="code">
         <div class="label">CODE:</div>
         <div class="input">
-          <el-input ref="input" v-model="state.input" id="code" @change="check" />
+          <el-input ref="input" v-model="state.input" :autofocus="true" @change="check" />
         </div>
         <div class="btn">
           <el-button @click="check">저장</el-button>
         </div>
       </div>
       <div class="result">
-        <div class="item" v-for="(item, idx) in state.list" :key="idx">
-          <div class="name">{{item.name}}</div>-
-          <span>{{item.time}}</span>
-        </div>
+        <el-timeline>
+          <el-timeline-item
+            v-for="(item, index) in state.list"
+            :key="index"
+            placement="bottom"
+            :icon="item.icon"
+            :type="item.type"
+            :color="item.color"
+            :size="item.size"
+            :timestamp="item.time"
+          >{{item.name}}</el-timeline-item>
+        </el-timeline>
       </div>
     </section>
   </main>
@@ -33,7 +41,8 @@ import {useCheck} from './index.fn'
 const logger = createLogger().addTags('Index.vue')
 
 interface IState {
-  list: Array<{name: string; time: string}>
+  // list: Array<{name: string; time: string}>
+  list: any[]
   input: string
   today: string
 }
@@ -44,99 +53,129 @@ export default {
       list: [
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
         {
           name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
-        },
-        {
-          name: '송하니',
-          time: '~~~',
+          time: 'February 19th 07:36:51',
+          size: 'large',
+          type: 'primary',
+          icon: 'el-icon-check',
         },
       ],
       input: '',
@@ -148,7 +187,7 @@ export default {
     onMounted(async () => {
       const l = logger.addTags('mounted')
       l.info('start')
-      root.$refs.input.focus()
+      // root.$refs.input.$refs.input.focus()
     })
     return {
       state,
@@ -172,6 +211,8 @@ main {
     }
 
     .title {
+      text-align: center;
+
       h1 {
         font-size: 60px;
         margin: 30px;
@@ -221,6 +262,33 @@ main {
           color: #555;
         }
       }
+    }
+  }
+}
+</style>
+<style lang="stylus">
+.el-timeline {
+  .el-timeline-item__tail {
+    left: 9px;
+  }
+
+  .el-timeline-item__icon {
+    font-size: 20px;
+    font-font-weight: 600;
+  }
+
+  .el-timeline-item__wrapper {
+    padding-left: 36px;
+    padding-top: 3px;
+
+    .el-timeline-item__content {
+      font-size: 20px;
+      // font-weight: bold;
+    }
+
+    .el-timeline-item__timestamp {
+      font-size: 16px;
+      font-weight: 500;
     }
   }
 }

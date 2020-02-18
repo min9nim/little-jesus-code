@@ -47,7 +47,16 @@ export function useCheck({state, root}) {
         .format('YYYYMMDD'),
     })
     l.info('result =', result.checkAttendance)
-    state.list = [{name: student.name, time: moment().format('HH:mm:ss')}, ...state.list]
+    state.list = [
+      {
+        size: 'large',
+        type: 'primary',
+        icon: 'el-icon-check',
+        name: student.name,
+        time: moment().format('MMMM Do HH:mm:ss'),
+      },
+      ...state.list,
+    ]
     state.input = ''
     await Swal.fire({
       icon: 'success',
