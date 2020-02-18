@@ -24,14 +24,8 @@
   </main>
 </template>
 <script lang="ts">
-import {createComponent, onBeforeMount, onMounted, watch, reactive} from '@vue/composition-api'
-import {codeMap} from '../biz/codeMap'
+import {onMounted, reactive} from '@vue/composition-api'
 import moment from 'moment'
-import Swal from 'sweetalert2'
-import {req} from '../utils'
-import {qStudents, qCheckAttendance} from '../biz/query'
-import {go} from 'mingutils'
-import {prop, find, propEq} from 'ramda'
 import intervalCall from 'interval-call'
 import createLogger from 'if-logger'
 import {useCheck} from './index.fn'
@@ -47,7 +41,104 @@ export default {
   name: 'index-page',
   setup(props, {root}) {
     const state = reactive<IState>({
-      list: [],
+      list: [
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+        {
+          name: '송하니',
+          time: '~~~',
+        },
+      ],
       input: '',
       today: moment()
         .startOf('week')
