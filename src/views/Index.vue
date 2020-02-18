@@ -8,10 +8,10 @@
       <div class="code">
         <div class="label">CODE:</div>
         <div class="input">
-          <input ref="input" v-model="state.input" id="code" @keyup.enter="check" />
+          <el-input ref="input" v-model="state.input" id="code" @change="check" />
         </div>
         <div class="btn">
-          <button @click="check">저장</button>
+          <el-button @click="check">저장</el-button>
         </div>
       </div>
       <div class="result">
@@ -202,12 +202,6 @@ main {
 
       .btn {
         margin-left: 5px;
-
-        button {
-          width: 50px;
-          height: 35px;
-          cursor: pointer;
-        }
       }
     }
 
