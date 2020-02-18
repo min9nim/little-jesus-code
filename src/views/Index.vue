@@ -14,7 +14,7 @@
           <el-button @click="check">저장</el-button>
         </div>
       </div>
-      <div class="result">
+      <div class="result" id="result">
         <el-timeline>
           <el-timeline-item
             v-for="(item, index) in state.list"
@@ -188,6 +188,9 @@ export default {
       const l = logger.addTags('mounted')
       l.info('start')
       // root.$refs.input.$refs.input.focus()
+
+      const resultDom = document.getElementById('result')
+      resultDom.style.height = document.documentElement.clientHeight - 350 + 'px'
     })
     return {
       state,
@@ -247,7 +250,7 @@ main {
     }
 
     .result {
-      flex: 1;
+      // flex: 1;
       overflow: auto;
       margin-top: 70px;
 
