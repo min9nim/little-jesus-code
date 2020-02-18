@@ -196,6 +196,9 @@ export default {
       // root.$refs.input.$refs.input.focus()
 
       const resultDom = document.getElementById('result')
+      if (!resultDom) {
+        throw Error('resultDom is not found')
+      }
       resultDom.style.height = document.documentElement.clientHeight - 350 + 'px'
     })
     return {
