@@ -1,21 +1,21 @@
 <template>
   <main>
     <section>
-      <div class="date">{{today}}</div>
+      <div class="date">{{state.today}}</div>
       <div class="title">
         <h1>QR 코드 입력</h1>
       </div>
       <div class="code">
         <div class="label">CODE:</div>
         <div class="input">
-          <input ref="input" v-model="input" id="code" @keyup.enter="check" />
+          <input ref="input" v-model="state.input" id="code" @keyup.enter="check" />
         </div>
         <div class="btn">
           <button @click="check">저장</button>
         </div>
       </div>
       <div class="result">
-        <div class="item" v-for="(item, idx) in list" :key="idx">
+        <div class="item" v-for="(item, idx) in state.list" :key="idx">
           <div class="name">{{item.name}}</div>-
           <span>{{item.time}}</span>
         </div>
@@ -23,7 +23,8 @@
     </section>
   </main>
 </template>
-<script>
+<script lang="ts">
+import {createComponent, onBeforeMount, onMounted, watch, reactive} from '@vue/composition-api'
 import {codeMap} from '../biz/codeMap'
 import moment from 'moment'
 import Swal from 'sweetalert2'
@@ -33,77 +34,35 @@ import {go} from 'mingutils'
 import {prop, find, propEq} from 'ramda'
 import intervalCall from 'interval-call'
 import createLogger from 'if-logger'
+import {useCheck} from './index.fn'
 
-const logger = createLogger().addTags('Home.vue')
+const logger = createLogger().addTags('Index.vue')
 
-const ALERT_TIMER = 2000
-
+interface IState {
+  list: Array<{name: string; time: string}>
+  input: string
+  today: string
+}
 export default {
   name: 'index-page',
-  data: () => {
-    return {
+  setup(props, {root}) {
+    const state = reactive<IState>({
       list: [],
       input: '',
       today: moment()
         .startOf('week')
         .format('YYYY-MM-DD'),
+    })
+    const check = useCheck({state, root})
+    onMounted(async () => {
+      const l = logger.addTags('mounted')
+      l.info('start')
+      root.$refs.input.focus()
+    })
+    return {
+      state,
+      check: intervalCall(500)(check),
     }
-  },
-  async mounted() {
-    const l = logger.addTags('mounted')
-    l.info('start')
-    this.$refs.input.focus()
-  },
-
-  methods: {
-    check: intervalCall(500)(async function() {
-      const l = logger.addTags('check')
-      if (!this.input) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops..',
-          text: 'The code is empty',
-          showConfirmButton: true,
-          timer: ALERT_TIMER,
-        })
-        return
-      }
-      // const name = isNaN(Number(this.input)) ? this.input : codeMap[this.input]
-      let student
-      if (isNaN(Number(this.input))) {
-        student = this.$store.state.students.find(propEq('name', this.input))
-      } else {
-        student = this.$store.state.students.find(propEq('no', this.input))
-      }
-      if (!student) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops..',
-          text: 'The name of code(' + this.input + ') is not found',
-          showConfirmButton: true,
-          timer: ALERT_TIMER,
-        })
-        this.input = ''
-        return
-      }
-      l.info('matched:', student.name, student._id)
-      const result = await req(qCheckAttendance, {
-        owner: student._id,
-        date: moment()
-          .startOf('week')
-          .format('YYYYMMDD'),
-      })
-      l.info('result =', result.checkAttendance)
-      this.list = [{name: student.name, time: moment().format('HH:mm:ss')}, ...this.list]
-      this.input = ''
-      Swal.fire({
-        icon: 'success',
-        title: 'Welcome ' + student.name + ':)',
-        text: '출석체크 완료~*',
-        showConfirmButton: true,
-        timer: ALERT_TIMER,
-      })
-    }),
   },
 }
 </script>

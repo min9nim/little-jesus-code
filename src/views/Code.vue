@@ -31,7 +31,7 @@ const logger = createLogger().addTags('Code.vue')
 const intervalCall = useIntervalCall(1000)
 
 export default {
-  name: 'v-student',
+  name: 'v-code',
   setup(props: any, {root, refs}: any) {
     const state: IState = useState({root})
     // @ts-ignore
