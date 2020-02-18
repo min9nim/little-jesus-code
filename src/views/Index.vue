@@ -272,6 +272,11 @@ main {
     left: 9px;
   }
 
+  .el-timeline-item__node--large {
+    width: 25px;
+    height: 25px;
+  }
+
   .el-timeline-item__icon {
     font-size: 20px;
     font-font-weight: 600;
