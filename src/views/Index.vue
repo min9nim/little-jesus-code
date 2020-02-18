@@ -3,12 +3,18 @@
     <section>
       <div class="date">{{state.today}}</div>
       <div class="title">
-        <h1>QR 코드 입력</h1>
+        <h1>QR코드 입력</h1>
       </div>
       <div class="code">
         <div class="label">CODE:</div>
         <div class="input">
-          <el-input ref="input" v-model="state.input" :autofocus="true" @change="check" />
+          <el-input
+            ref="input"
+            v-model="state.input"
+            :autofocus="true"
+            placeholder="QR코드 입력"
+            @change="check"
+          />
         </div>
         <div class="btn">
           <el-button @click="check">저장</el-button>
