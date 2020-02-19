@@ -53,9 +53,7 @@ export function useCheck({state, root}) {
         type: 'primary',
         icon: 'el-icon-check',
         name: student.name,
-        time: moment()
-          .startOf('week')
-          .format('MMMM Do HH:mm:ss'),
+        time: moment().format('MMMM Do HH:mm:ss'),
       },
       ...state.list,
     ]
