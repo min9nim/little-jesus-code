@@ -14,9 +14,15 @@ import {qStudents, qUpdateStudent} from './biz/query'
 import createLogger from 'if-logger'
 import {codeMap} from './biz/codeMap'
 import {go} from 'mingutils'
-import {prop, find, propEq} from 'ramda'
+import {prop, find, propEq, sort} from 'ramda'
 
 const logger = createLogger({tags: ['App.vue']})
+
+function nameAscending(a: any, b: any) {
+  if (a.name > b.name) return 1
+  if (b.name > a.name) return -1
+  return 0
+}
 
 export default {
   setup(props: any, {root}: any) {
@@ -28,10 +34,11 @@ export default {
       const l = logger.addTags('onBeforeMount')
       l.info('start')
       const result = await req(qStudents)
-      l.debug('result.students', result.students)
+      const sortedList = sort(nameAscending, result.students)
+      l.debug('result.students', sortedList)
       root.$store.commit(
         'setStudents',
-        result.students.map(student => ({...student, editable: false, loading: false})),
+        sortedList.map(student => ({...student, editable: false, loading: false})),
       )
 
       // 코드값 초기화
