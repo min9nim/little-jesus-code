@@ -6,9 +6,16 @@ import createLogger from 'if-logger'
 import {pipe, propEq, curry, findIndex, remove, update, find} from 'ramda'
 
 const url: any = {
+  // 2019년 prod 백엔드
   prod: 'https://little-jesus-api.now.sh',
+
+  // 2020년 prod 백엔드
   prod2020: 'https://little-jesus-api-git-lj2020.min1.now.sh',
+
+  // 개발서버
   dev: 'https://little-jesus-api-git-develop.min1.now.sh',
+
+  // 로컬서버
   local: 'http://localhost:5050',
 }
 let BASEURL = url.dev
@@ -18,10 +25,7 @@ export function setApiServer() {
   if (window.location.host.indexOf('localhost') === 0) {
     BASEURL = url.local
   }
-  if (window.location.host === 'little-jesus.now.sh') {
-    BASEURL = url.prod
-  }
-  if (window.location.host === 'little-jesus-2020.now.sh') {
+  if (window.location.host === 'little-jesus-code.now.sh') {
     BASEURL = url.prod2020
   }
   const queryParam = getQueryParams(window.location.href)
