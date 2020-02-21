@@ -76,10 +76,10 @@ export const removeBy = pred => {
   }
 }
 
-export const updateById = curry((id, tobe, list) => {
-  return updateBy(idEqual(id))(tobe)(list)
-})
+// export const updateById = curry((id, tobe, list) => {
+//   return updateBy(idEqual(id))(tobe)(list)
+// })
 
-export const removeById = curry((id, list) => {
-  return removeBy(idEqual(id))(list)
-})
+// export const removeById = curry((id, list) => {
+//   return removeBy(idEqual(id))(list)
+// })
