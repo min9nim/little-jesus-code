@@ -33,10 +33,8 @@ const intervalCall = useIntervalCall(1000)
 export default {
   name: 'v-code',
   setup(props: any, {root, refs}: any) {
-    const state: IState = useState({root})
-    // @ts-ignore
+    const state: IState = useState()
     const handleStudentClick = useHandleStudentClick({root, refs})
-    // @ts-ignore
     const handleStudentNameConfirm = useHandleStudentNameConfirm(state)
     watch(
       () => root.$store.state.students.length,

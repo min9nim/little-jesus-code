@@ -4,7 +4,7 @@ import {req} from '@/utils'
 import {qUpdateStudent} from '@/biz/query'
 import {MessageBox, Notification} from 'element-ui'
 import createLogger from 'if-logger'
-import {clone, propEq, prop, find} from 'ramda'
+import {propEq, find} from 'ramda'
 import {go} from 'mingutils'
 
 const logger = createLogger().addTags('code.fn.ts')
@@ -16,7 +16,7 @@ export interface IState {
   originalStudents: IStudent[]
 }
 
-export function useState({root}): IState {
+export function useState(): IState {
   return reactive<IState>({
     loading: false,
     inputVisible: false,
