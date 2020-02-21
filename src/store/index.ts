@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {IStudent} from '../biz/type'
-import {removeById} from '../utils'
+import {removeById} from 'mingutils'
 
 Vue.use(Vuex)
 

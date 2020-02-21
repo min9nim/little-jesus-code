@@ -4,7 +4,7 @@ import {req} from '@/utils'
 import {qUpdateStudent} from '@/biz/query'
 import {MessageBox, Notification} from 'element-ui'
 import createLogger from 'if-logger'
-import {clone, propEq, prop, find} from 'ramda'
+import {propEq, find} from 'ramda'
 import {go} from 'mingutils'
 
 const logger = createLogger().addTags('code.fn.ts')
@@ -16,7 +16,7 @@ export interface IState {
   originalStudents: IStudent[]
 }
 
-export function useState({root}): IState {
+export function useState(): IState {
   return reactive<IState>({
     loading: false,
     inputVisible: false,
@@ -41,10 +41,10 @@ export function useHandleStudentNameConfirm(state: IState) {
   const l = logger.addTags('useHandleStudentNameConfirm')
   return async (student: IStudent) => {
     try {
-      if (!student.no) {
-        student.editable = false
-        return
-      }
+      // if (!student.no) {
+      //   student.editable = false
+      //   return
+      // }
       const originalStudent = go(state.originalStudents, find(propEq('_id', student._id)))
       l.verbose(originalStudent.no, student.no)
       if (originalStudent.no === student.no) {
@@ -54,7 +54,7 @@ export function useHandleStudentNameConfirm(state: IState) {
       }
 
       const sameNoStudent = go(state.originalStudents, find(propEq('no', student.no)))
-      if (sameNoStudent) {
+      if (student.no && sameNoStudent) {
         MessageBox.alert(
           sameNoStudent.name + '의 코드값과 동일합니다. 다른 값을 입력해 주세요',
           '',
