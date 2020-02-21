@@ -54,7 +54,7 @@ export function useHandleStudentNameConfirm(state: IState) {
       }
 
       const sameNoStudent = go(state.originalStudents, find(propEq('no', student.no)))
-      if (sameNoStudent) {
+      if (!sameNoStudent.no && sameNoStudent) {
         MessageBox.alert(
           sameNoStudent.name + '의 코드값과 동일합니다. 다른 값을 입력해 주세요',
           '',
