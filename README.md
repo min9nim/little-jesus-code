@@ -1,5 +1,8 @@
 # little-jesus-code
-git push -u origin master
+
+The web application of checking attendance for little-jesus
+
+<br>
 
 ## Project setup
 
