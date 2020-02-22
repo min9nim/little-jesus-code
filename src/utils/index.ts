@@ -1,48 +1,7 @@
-import axios from 'axios'
-import {print} from 'graphql/language/printer'
-import {getQueryParams} from 'mingutils'
 import {path} from 'ramda'
-import createLogger from 'if-logger'
 import {pipe, propEq, curry, findIndex, remove, update, find} from 'ramda'
 
-const url: any = {
-  // 2019년 prod 백엔드
-  prod: 'https://little-jesus-api.now.sh',
-
-  // 2020년 prod 백엔드
-  prod2020: 'https://little-jesus-api-git-lj2020.min1.now.sh',
-
-  // 개발서버
-  dev: 'https://little-jesus-api-git-develop.min1.now.sh',
-
-  // 로컬서버
-  local: 'http://localhost:5050',
-}
-let BASEURL = url.dev
-
-export function setApiServer() {
-  const l = createLogger()
-  if (window.location.host.indexOf('localhost') === 0) {
-    BASEURL = url.local
-  }
-  if (window.location.host === 'little-jesus-code.now.sh') {
-    BASEURL = url.prod2020
-  }
-  const queryParam = getQueryParams(window.location.href)
-  if (queryParam.api) {
-    BASEURL = url[queryParam.api]
-  }
-  l.info('api-server: ' + BASEURL)
-}
-
-export async function req(query: any, variables = {}) {
-  let config = {headers: {'Content-Type': 'application/json'}}
-  const result = await axios.post(BASEURL, {query: print(query), variables}, config)
-  if (result.data.errors) {
-    throw result.data.errors
-  }
-  return result.data.data
-}
+export * from '@mgsong/lj-common'
 
 export function ascending(path: any) {
   return (a: any, b: any) => {
