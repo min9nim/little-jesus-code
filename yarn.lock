@@ -781,10 +781,10 @@
     request-promise "^4.1.1"
     yargs "^8.0.2"
 
-"@mgsong/lj-common@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@mgsong/lj-common/-/lj-common-0.0.1.tgz#b9ff30df64d48c41660e91043eebc0d1a5c271c0"
-  integrity sha512-VtGBOhUWHxW8DxotUF7xqemMGzxDvwaXmTdqf+jg+4GQaBlt70BCtqcSjmKIRlKtPqndQw53nl1rGNG8BPVpkQ==
+"@mgsong/lj-common@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@mgsong/lj-common/-/lj-common-0.0.2.tgz#47209cd7f7c6d5ba4ddf926ee315f27ea2bb499b"
+  integrity sha512-BScepXwImnFm7VrGVIHrB+9MERGagDV9jmxK37oimWQvW0MYDO5A1MpKHb5v7Lzm/Vfkt2cjLNGL30nl59rYmg==
   dependencies:
     "@sentry/browser" "^5.9.1"
     "@sentry/integrations" "^5.8.0"
