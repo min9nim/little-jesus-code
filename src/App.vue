@@ -9,7 +9,7 @@
 <script lang="ts">
 import {reactive, onMounted, onBeforeMount} from '@vue/composition-api'
 import Vue from 'vue'
-import {req} from './utils'
+import {req, nameAscending} from './utils'
 import {qStudents, qUpdateStudent} from './biz/query'
 import createLogger from 'if-logger'
 import {codeMap} from './biz/codeMap'
@@ -17,12 +17,6 @@ import {go} from 'mingutils'
 import {prop, find, propEq, sort} from 'ramda'
 
 const logger = createLogger({tags: ['App.vue']})
-
-function nameAscending(a: any, b: any) {
-  if (a.name > b.name) return 1
-  if (b.name > a.name) return -1
-  return 0
-}
 
 export default {
   setup(props: any, {root}: any) {
@@ -38,7 +32,7 @@ export default {
       l.debug('result.students', sortedList)
       root.$store.commit(
         'setStudents',
-        sortedList.map(student => ({...student, editable: false, loading: false})),
+        sortedList.map((student: any) => ({...student, editable: false, loading: false})),
       )
 
       // 코드값 초기화

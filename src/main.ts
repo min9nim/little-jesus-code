@@ -6,9 +6,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import locale from 'element-ui/lib/locale/lang/ko'
-import {setApiServer} from '@/utils'
+import {setApiServer, initSentry} from '@/utils'
 
 setApiServer()
+initSentry(Vue)
 
 Vue.config.productionTip = false
 Vue.use(VueCompositionApi)
