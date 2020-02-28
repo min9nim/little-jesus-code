@@ -47,14 +47,13 @@ import {useCheck} from './index.fn'
 const logger = createLogger().addTags('Index.vue')
 
 interface IState {
-  // list: Array<{name: string; time: string}>
   list: any[]
   input: string
   today: string
 }
 export default {
   name: 'index-page',
-  setup(props, {root}) {
+  setup(props, {root, refs}) {
     const state = reactive<IState>({
       list: [],
       input: '',
@@ -65,19 +64,7 @@ export default {
     const check = useCheck({state, root})
     onMounted(async () => {
       logger.verbose('mounted')
-
-      setTimeout(() => {
-        if (root.$refs) {
-          if (!root.$refs.input) {
-            logger.warn('root.$refs.input is undefinied') // ????
-          } else {
-            root.$refs.input.$refs.input.focus()
-          }
-        } else {
-          logger.warn('root.$refs is undefined')
-        }
-      }, 1000)
-
+      refs.input.$refs.input.focus()
       const resultDom = document.getElementById('result')
       if (!resultDom) {
         throw Error('resultDom is not found')
