@@ -48,16 +48,13 @@ export function useCheck({state, root}) {
     })
     l.info('result =', result.checkAttendance)
     root.$store.commit('check', student._id)
-    state.list = [
-      {
-        size: 'large',
-        type: 'primary',
-        icon: 'el-icon-check',
-        name: student.name,
-        time: moment().format('MMMM Do HH:mm:ss'),
-      },
-      ...state.list,
-    ]
+    root.$store.commit('prependIndexList', {
+      size: 'large',
+      type: 'primary',
+      icon: 'el-icon-check',
+      name: student.name,
+      time: moment().format('MMMM Do HH:mm:ss'),
+    })
     state.input = ''
 
     new Audio('/ring.mp3').play()

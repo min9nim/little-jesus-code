@@ -23,7 +23,7 @@
       <div class="result" id="result">
         <el-timeline>
           <el-timeline-item
-            v-for="(item, index) in state.list"
+            v-for="(item, index) in $store.state.indexList"
             :key="index"
             placement="bottom"
             :icon="item.icon"
@@ -47,7 +47,6 @@ import {useCheck} from './index.fn'
 const logger = createLogger().addTags('Index.vue')
 
 interface IState {
-  list: any[]
   input: string
   today: string
 }
@@ -55,7 +54,6 @@ export default {
   name: 'index-page',
   setup(props, {root, refs}) {
     const state = reactive<IState>({
-      list: [],
       input: '',
       today: moment()
         .startOf('week')

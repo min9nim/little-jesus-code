@@ -14,6 +14,7 @@ export default new Vuex.Store({
     date: '',
     students: [] as IStudent[],
     points: [] as any[],
+    indexList: [] as any[],
   },
   mutations: {
     setStudents(state, students) {
@@ -35,6 +36,15 @@ export default new Vuex.Store({
         return
       }
       student.checked = true
+    },
+    setIndexList(state, list) {
+      state.indexList = list
+    },
+    appendIndexList(state, item) {
+      state.indexList.push(item)
+    },
+    prependIndexList(state, item) {
+      state.indexList.unshift(item)
     },
   },
   getters: {
