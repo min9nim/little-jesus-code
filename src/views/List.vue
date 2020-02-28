@@ -1,24 +1,18 @@
 <template lang="pug">
   .main
-    h4 이번 주 출석한 친구들({{$store.state.points.length}})
+    h4 이번 주 출석한 친구들({{$store.state.points.length}}/{{$store.state.students.length}})
     .list
-      .student(v-for="point in $store.state.points")
-        el-tag {{$store.getters.studentMap[point.owner].name}}
+      .student(v-for="(student, idx) in $store.state.students" :key="idx")
+        el-tag(:type="student.checked ? '' : 'info'") {{student.name}}
 </template>
 
 <script lang="ts">
 import createLogger from 'if-logger'
-import {resetCaches} from 'graphql-tag'
 import {reactive, computed} from '@vue/composition-api'
 
 const logger = createLogger().addTags('List.vue')
 export default {
   name: 'v-list',
-  // setup(props, {root}) {
-  //   const state = reactive({
-  //     studentMap: computed(() => root.$store.getters['studentMap']),
-  //   })
-  // },
 }
 </script>
 <style scoped lang="stylus">

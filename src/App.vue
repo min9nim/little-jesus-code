@@ -41,20 +41,22 @@ export default {
         req(qStudents),
       ])
 
-      console.log('pointsFromTo:', pointsFromTo)
-
-      const checkedPoints = pointsFromTo.filter(point =>
-        point.items.some(item => item.value === '출석:1'),
-      )
-
-      console.log('checkedPoints:', checkedPoints)
+      logger.verbose('pointsFromTo:', pointsFromTo)
+      const isChecked = point => point.items.some(propEq('value', '출석:1'))
+      const checkedPoints = pointsFromTo.filter(isChecked)
+      logger.verbose('checkedPoints:', checkedPoints)
       root.$store.commit('setPoints', checkedPoints)
 
       const sortedList = sort(nameAscending, students)
       l.debug('result.students', sortedList)
       root.$store.commit(
         'setStudents',
-        sortedList.map((student: any) => ({...student, editable: false, loading: false})),
+        sortedList.map((student: any) => ({
+          ...student,
+          editable: false,
+          loading: false,
+          checked: checkedPoints.some(propEq('owner', student._id)),
+        })),
       )
 
       // 코드값 초기화
