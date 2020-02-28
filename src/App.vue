@@ -10,7 +10,7 @@
 import {reactive, onMounted, onBeforeMount} from '@vue/composition-api'
 import Vue from 'vue'
 import {req, nameAscending} from './utils'
-import {qStudents, qUpdateStudent} from './biz/query'
+import {qStudents, qUpdateStudent, qPointsFromTo} from './biz/query'
 import createLogger from 'if-logger'
 import {codeMap} from './biz/codeMap'
 import {go} from 'mingutils'
@@ -27,6 +27,8 @@ export default {
     onBeforeMount(async () => {
       const l = logger.addTags('onBeforeMount')
       l.info('start')
+      const points = await req(qPointsFromTo, {startDate: '20200223', endDate: '20200223'})
+      logger.verbose('points:', points)
       const result = await req(qStudents)
       const sortedList = sort(nameAscending, result.students)
       l.debug('result.students', sortedList)

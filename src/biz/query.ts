@@ -34,3 +34,17 @@ export const qUpdateStudent = gql`
     }
   }
 `
+
+export const qPointsFromTo = gql`
+  query pointsFromTo($startDate: String!, $endDate: String!) {
+    pointsFromTo(startDate: $startDate, endDate: $endDate) {
+      _id
+      owner
+      date
+      items {
+        type
+        value
+      }
+    }
+  }
+`
