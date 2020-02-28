@@ -3,7 +3,7 @@
   #nav
     el-tabs(v-model="state.activeName" @tab-click="handleClick")
       el-tab-pane(label="출석체크" name="/")
-      el-tab-pane(label="코드매핑" name="/code")
+      //- el-tab-pane(label="코드매핑" name="/code")
   router-view  
 </template>
 <script lang="ts">
