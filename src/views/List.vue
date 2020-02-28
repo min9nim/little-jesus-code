@@ -1,24 +1,34 @@
 <template lang="pug">
-  .main
-    h4 이번 주 출석한 친구들({{$store.state.points.length}})
+  .main(v-loading="state.loading")
+    h4 이번 주 출석한 친구들({{$store.state.points.length}}/{{$store.state.students.length}})
     .list
-      .student(v-for="point in $store.state.points")
-        el-tag {{$store.getters.studentMap[point.owner].name}}
+      .student(v-for="(student, idx) in $store.state.students" :key="idx")
+        el-tag(:type="student.checked ? '' : 'info'") {{student.name}}
 </template>
 
 <script lang="ts">
 import createLogger from 'if-logger'
-import {resetCaches} from 'graphql-tag'
-import {reactive, computed} from '@vue/composition-api'
+import {reactive, computed, watch} from '@vue/composition-api'
 
 const logger = createLogger().addTags('List.vue')
 export default {
   name: 'v-list',
-  // setup(props, {root}) {
-  //   const state = reactive({
-  //     studentMap: computed(() => root.$store.getters['studentMap']),
-  //   })
-  // },
+  setup(props, {root}) {
+    const state = reactive({
+      loading: true,
+    })
+    watch(
+      () => root.$store.state.students.length,
+      () => {
+        if (root.$store.state.students.length > 0) {
+          state.loading = false
+        }
+      },
+    )
+    return {
+      state,
+    }
+  },
 }
 </script>
 <style scoped lang="stylus">
@@ -30,7 +40,7 @@ export default {
   }
 
   .student {
-    margin: 3px 5px;
+    margin: 3px 10px 3px 0;
     display: inline-block;
   }
 }

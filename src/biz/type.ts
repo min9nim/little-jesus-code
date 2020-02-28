@@ -5,4 +5,5 @@ export interface IStudent {
   disable?: boolean
   loading?: boolean
   editable?: boolean
+  checked?: boolean
 }

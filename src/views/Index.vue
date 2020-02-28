@@ -1,41 +1,18 @@
-<template>
-  <main>
-    <section>
-      <div class="date">{{state.today}}</div>
-      <div class="title">
-        <h1>QR코드 입력</h1>
-      </div>
-      <div class="code">
-        <div class="label">CODE:</div>
-        <div class="input">
-          <el-input
-            ref="input"
-            v-model="state.input"
-            :autofocus="true"
-            placeholder="QR코드 입력"
-            @change="check"
-          />
-        </div>
-        <div class="btn">
-          <el-button @click="check">저장</el-button>
-        </div>
-      </div>
-      <div class="result" id="result">
-        <el-timeline>
-          <el-timeline-item
-            v-for="(item, index) in state.list"
-            :key="index"
-            placement="bottom"
-            :icon="item.icon"
-            :type="item.type"
-            :color="item.color"
-            :size="item.size"
-            :timestamp="item.time"
-          >{{item.name}}</el-timeline-item>
-        </el-timeline>
-      </div>
-    </section>
-  </main>
+<template lang="pug">
+  main
+    section
+      .date {{state.today}}
+      .title
+        h1 QR코드 입력
+      .code
+        .label CODE:
+        .input
+          el-input(ref="input" v-model="state.input" :autofocus="true" placeholder="QR코드 입력" @change="check")
+        .btn
+          el-button(@click="check") 저장
+      #result.result
+        el-timeline
+          el-timeline-item(v-for="(item, index) in $store.state.indexList" :key="index" placement="bottom" :icon="item.icon" :type="item.type" :color="item.color" :size="item.size" :timestamp="item.time") {{item.name}}
 </template>
 <script lang="ts">
 import {onMounted, reactive} from '@vue/composition-api'
@@ -47,16 +24,13 @@ import {useCheck} from './index.fn'
 const logger = createLogger().addTags('Index.vue')
 
 interface IState {
-  // list: Array<{name: string; time: string}>
-  list: any[]
   input: string
   today: string
 }
 export default {
   name: 'index-page',
-  setup(props, {root}) {
+  setup(props, {root, refs}) {
     const state = reactive<IState>({
-      list: [],
       input: '',
       today: moment()
         .startOf('week')
@@ -64,10 +38,8 @@ export default {
     })
     const check = useCheck({state, root})
     onMounted(async () => {
-      const l = logger.addTags('mounted')
-      l.info('start')
-      // root.$refs.input.$refs.input.focus()
-
+      logger.verbose('mounted')
+      refs.input.$refs.input.focus()
       const resultDom = document.getElementById('result')
       if (!resultDom) {
         throw Error('resultDom is not found')
