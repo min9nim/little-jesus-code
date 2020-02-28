@@ -10,11 +10,12 @@
 import {reactive, onMounted, onBeforeMount} from '@vue/composition-api'
 import Vue from 'vue'
 import {req, nameAscending} from './utils'
-import {qStudents, qUpdateStudent} from './biz/query'
+import {qStudents, qUpdateStudent, qPointsFromTo} from './biz/query'
 import createLogger from 'if-logger'
 import {codeMap} from './biz/codeMap'
 import {go} from 'mingutils'
 import {prop, find, propEq, sort} from 'ramda'
+import moment from 'moment'
 
 const logger = createLogger({tags: ['App.vue']})
 
@@ -27,8 +28,29 @@ export default {
     onBeforeMount(async () => {
       const l = logger.addTags('onBeforeMount')
       l.info('start')
-      const result = await req(qStudents)
-      const sortedList = sort(nameAscending, result.students)
+      const today = moment()
+        .startOf('week')
+        .format('YYYYMMDD')
+
+      // const points = await req(qPointsFromTo, {startDate: today, endDate: today})
+      // logger.verbose('points:', points)
+      // const result = await req(qStudents)
+
+      const [{pointsFromTo}, {students}] = await Promise.all([
+        req(qPointsFromTo, {startDate: today, endDate: today}),
+        req(qStudents),
+      ])
+
+      console.log('pointsFromTo:', pointsFromTo)
+
+      const checkedPoints = pointsFromTo.filter(point =>
+        point.items.some(item => item.value === '출석:1'),
+      )
+
+      console.log('checkedPoints:', checkedPoints)
+      root.$store.commit('setPoints', checkedPoints)
+
+      const sortedList = sort(nameAscending, students)
       l.debug('result.students', sortedList)
       root.$store.commit(
         'setStudents',

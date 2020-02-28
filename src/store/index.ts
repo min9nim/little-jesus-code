@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     date: '',
     students: [] as IStudent[],
+    points: [] as any[],
   },
   mutations: {
     setStudents(state, students) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     removeStudent(state: any, studentId) {
       state.students = removeById(studentId)(state.students)
+    },
+    setPoints(state, points) {
+      state.points = points
     },
   },
   getters: {
