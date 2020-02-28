@@ -24,7 +24,7 @@ export default {
   }
 
   .student {
-    margin: 3px 5px;
+    margin: 3px 10px 3px 0;
     display: inline-block;
   }
 }
