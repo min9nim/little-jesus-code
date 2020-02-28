@@ -15,6 +15,7 @@ import createLogger from 'if-logger'
 import {codeMap} from './biz/codeMap'
 import {go} from 'mingutils'
 import {prop, find, propEq, sort} from 'ramda'
+import moment from 'moment'
 
 const logger = createLogger({tags: ['App.vue']})
 
@@ -27,10 +28,21 @@ export default {
     onBeforeMount(async () => {
       const l = logger.addTags('onBeforeMount')
       l.info('start')
-      const points = await req(qPointsFromTo, {startDate: '20200223', endDate: '20200223'})
-      logger.verbose('points:', points)
-      const result = await req(qStudents)
-      const sortedList = sort(nameAscending, result.students)
+      const today = moment()
+        .startOf('week')
+        .format('YYYYMMDD')
+
+      // const points = await req(qPointsFromTo, {startDate: today, endDate: today})
+      // logger.verbose('points:', points)
+      // const result = await req(qStudents)
+
+      const [{pointsFromTo}, {students}] = await Promise.all([
+        req(qPointsFromTo, {startDate: today, endDate: today}),
+        req(qStudents),
+      ])
+      console.log('pointsFromTo:', pointsFromTo)
+
+      const sortedList = sort(nameAscending, students)
       l.debug('result.students', sortedList)
       root.$store.commit(
         'setStudents',

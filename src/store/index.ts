@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     date: '',
     students: [] as IStudent[],
+    points: [] as any[],
   },
   mutations: {
     setStudents(state, students) {
