@@ -40,6 +40,8 @@ export default {
         req(qPointsFromTo, {startDate: today, endDate: today}),
         req(qStudents),
       ])
+      root.$store.commit('setPoints', pointsFromTo)
+
       console.log('pointsFromTo:', pointsFromTo)
 
       const sortedList = sort(nameAscending, students)

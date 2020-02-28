@@ -21,6 +21,9 @@ export default new Vuex.Store({
     removeStudent(state: any, studentId) {
       state.students = removeById(studentId)(state.students)
     },
+    setPoints(state, points) {
+      state.points = points
+    },
   },
   getters: {
     studentMap(state) {
