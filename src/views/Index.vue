@@ -1,41 +1,18 @@
-<template>
-  <main>
-    <section>
-      <div class="date">{{state.today}}</div>
-      <div class="title">
-        <h1>QR코드 입력</h1>
-      </div>
-      <div class="code">
-        <div class="label">CODE:</div>
-        <div class="input">
-          <el-input
-            ref="input"
-            v-model="state.input"
-            :autofocus="true"
-            placeholder="QR코드 입력"
-            @change="check"
-          />
-        </div>
-        <div class="btn">
-          <el-button @click="check">저장</el-button>
-        </div>
-      </div>
-      <div class="result" id="result">
-        <el-timeline>
-          <el-timeline-item
-            v-for="(item, index) in $store.state.indexList"
-            :key="index"
-            placement="bottom"
-            :icon="item.icon"
-            :type="item.type"
-            :color="item.color"
-            :size="item.size"
-            :timestamp="item.time"
-          >{{item.name}}</el-timeline-item>
-        </el-timeline>
-      </div>
-    </section>
-  </main>
+<template lang="pug">
+  main
+    section
+      .date {{state.today}}
+      .title
+        h1 QR코드 입력
+      .code
+        .label CODE:
+        .input
+          el-input(ref="input" v-model="state.input" :autofocus="true" placeholder="QR코드 입력" @change="check")
+        .btn
+          el-button(@click="check") 저장
+      #result.result
+        el-timeline
+          el-timeline-item(v-for="(item, index) in $store.state.indexList" :key="index" placement="bottom" :icon="item.icon" :type="item.type" :color="item.color" :size="item.size" :timestamp="item.time") {{item.name}}
 </template>
 <script lang="ts">
 import {onMounted, reactive} from '@vue/composition-api'
