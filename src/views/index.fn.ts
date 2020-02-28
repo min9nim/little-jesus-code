@@ -47,6 +47,7 @@ export function useCheck({state, root}) {
         .format('YYYYMMDD'),
     })
     l.info('result =', result.checkAttendance)
+    root.$store.commit('check', student._id)
     state.list = [
       {
         size: 'large',

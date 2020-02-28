@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {IStudent} from '../biz/type'
-import {removeById} from 'mingutils'
+import {removeById, idEqual} from 'mingutils'
+import propEq from 'ramda/es/propEq'
+import createLogger from 'if-logger'
+
+const logger = createLogger().addTags('vuex')
 
 Vue.use(Vuex)
 
@@ -23,6 +27,14 @@ export default new Vuex.Store({
     },
     setPoints(state, points) {
       state.points = points
+    },
+    check(state, _id) {
+      const student = state.students.find(idEqual(_id))
+      if (!student) {
+        logger.addTags('check').warn('student is not found')
+        return
+      }
+      student.checked = true
     },
   },
   getters: {
