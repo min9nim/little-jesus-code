@@ -64,9 +64,19 @@ export default {
     })
     const check = useCheck({state, root})
     onMounted(async () => {
-      const l = logger.addTags('mounted')
-      l.info('start')
-      // root.$refs.input.$refs.input.focus()
+      logger.verbose('mounted')
+
+      setTimeout(() => {
+        if (root.$refs) {
+          if (!root.$refs.input) {
+            logger.warn('root.$refs.input is undefinied') // ????
+          } else {
+            root.$refs.input.$refs.input.focus()
+          }
+        } else {
+          logger.warn('root.$refs is undefined')
+        }
+      }, 1000)
 
       const resultDom = document.getElementById('result')
       if (!resultDom) {
