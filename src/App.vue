@@ -40,9 +40,15 @@ export default {
         req(qPointsFromTo, {startDate: today, endDate: today}),
         req(qStudents),
       ])
-      root.$store.commit('setPoints', pointsFromTo)
 
       console.log('pointsFromTo:', pointsFromTo)
+
+      const checkedPoints = pointsFromTo.filter(point =>
+        point.items.some(item => item.value === '출석:1'),
+      )
+
+      console.log('checkedPoints:', checkedPoints)
+      root.$store.commit('setPoints', checkedPoints)
 
       const sortedList = sort(nameAscending, students)
       l.debug('result.students', sortedList)
