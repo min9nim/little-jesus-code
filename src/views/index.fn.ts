@@ -58,6 +58,8 @@ export function useCheck({state, root}) {
       ...state.list,
     ]
     state.input = ''
+
+    new Audio('/ring.mp3').play()
     await Swal.fire({
       icon: 'success',
       title: 'Welcome ' + student.name + ':)',
