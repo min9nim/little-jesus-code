@@ -1,7 +1,7 @@
 <template lang="pug">
   main
     section
-      .date {{state.today}}
+      .date {{state.today}} 일요일
       .title
         h1 QR코드 입력
       .code
