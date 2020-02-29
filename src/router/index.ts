@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/Index.vue'
+import createLogger from 'if-logger'
+
+const logger = createLogger().addTags('store')
 
 Vue.use(VueRouter)
 
@@ -24,6 +27,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "list" */ '../views/List.vue'),
   },
 ]
+
+logger.verbose('process.env.BASE_URL:', process.env.BASE_URL)
 
 const router = new VueRouter({
   mode: 'history',
