@@ -29,7 +29,7 @@ interface IState {
 }
 export default {
   name: 'index-page',
-  setup(props, {root, refs}) {
+  setup(props, {root, refs}: any) {
     const state = reactive<IState>({
       input: '',
       today: moment()
