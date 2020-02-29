@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const qStudents = gql`
-  {
+  query students {
     students {
       _id
       name
