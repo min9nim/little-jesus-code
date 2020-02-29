@@ -1,6 +1,6 @@
 <template lang="pug">
   .main(v-loading="state.loading")
-    h4 이번 주 출석 현황({{$store.state.points.length}}/{{$store.state.students.length}})
+    h4 이번 주 출석 현황({{state.checkedCount}}/{{$store.state.students.length}})
     .list
       .student(v-for="(student, idx) in $store.state.students" :key="idx")
         el-tag(:type="student.checked ? '' : 'info'") {{student.name}}
@@ -10,6 +10,8 @@
 import createLogger from 'if-logger'
 import {reactive, computed, watch} from '@vue/composition-api'
 import moment from 'moment'
+import {propEq, length, filter} from 'ramda'
+import {go} from 'mingutils'
 
 const logger = createLogger().addTags('List.vue')
 export default {
@@ -17,6 +19,9 @@ export default {
   setup(props, {root}) {
     const state = reactive({
       loading: true,
+      checkedCount: computed(() =>
+        go(root.$store.state.students, filter(propEq('checked', true)), length),
+      ),
       today: moment()
         .startOf('week')
         .format('MM/DD'),
