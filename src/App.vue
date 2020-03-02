@@ -16,6 +16,7 @@ import {codeMap} from './biz/codeMap'
 import {go} from 'mingutils'
 import {prop, find, propEq, sort} from 'ramda'
 import moment from 'moment'
+import {checkLocalServer} from '@mgsong/lj-common'
 
 const logger = createLogger({tags: ['App.vue']})
 
@@ -27,15 +28,13 @@ export default {
     })
     onBeforeMount(async () => {
       const l = logger.addTags('onBeforeMount')
+
       l.info('start')
       const today = moment()
         .startOf('week')
         .format('YYYYMMDD')
 
-      // const points = await req(qPointsFromTo, {startDate: today, endDate: today})
-      // logger.verbose('points:', points)
-      // const result = await req(qStudents)
-
+      await checkLocalServer()
       const [{pointsFromTo}, {students}] = await Promise.all([
         req(qPointsFromTo, {startDate: today, endDate: today}),
         req(qStudents),

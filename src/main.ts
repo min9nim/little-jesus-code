@@ -10,6 +10,7 @@ import TabPane from 'element-ui/lib/tab-pane'
 import Button from 'element-ui/lib/button'
 import loading from 'element-ui/lib/loading'
 import Timeline from 'element-ui/lib/timeline'
+import TimelineItem from 'element-ui/lib/timeline-item'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
@@ -28,6 +29,7 @@ Vue.use(TabPane)
 Vue.use(Button)
 Vue.use(loading)
 Vue.use(Timeline)
+Vue.use(TimelineItem)
 
 new Vue({
   router,
