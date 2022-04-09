@@ -20,7 +20,7 @@
     "interval-call": "^0.1.0",
     "mingutils": "0.0.10",
     "mocha": "^6.2.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ramda": "^0.26.1",
     "sweetalert2": "^9.7.2",
     "vue": "^2.6.10",
